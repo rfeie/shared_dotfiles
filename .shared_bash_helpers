@@ -1,0 +1,3 @@
+
+alias checkConsole='git diff -G console'
+alias refreshMaster='git checkout master && git pull origin master'
