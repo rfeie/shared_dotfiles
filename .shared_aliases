@@ -1,0 +1,25 @@
+alias ls='ls -la -FGash'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias clearall="clear && printf '\e[3J'"
+
+# git aliases
+alias checkConsole='git diff -G console'
+alias refreshMaster='git checkout master && git pull origin master'
+alias gc='git checkout'
+alias amend='git add . && git commit --amend --no-edit'
+alias stub='git add . && git commit -m "stub"'
+alias commit='git add . && git commit -m '
+alias deletebranches='git branch | grep -v "master" | xargs git branch -D'
+alias getmaster='git checkout master && git pull origin master'
+alias branchmaster='getmaster && git checkout -b '
+alias newPass='npx nicepass'
+
+
+# bash shortcuts
+alias cdp='cd ~/Documents/projects'
+alias ll='ls -l'
+alias cdc='. cdc'
+alias setup='. setup'
+alias mkcd='. mkcd'

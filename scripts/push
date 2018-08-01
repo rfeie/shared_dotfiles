@@ -1,0 +1,31 @@
+#!/bin/bash
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# should be origin or ""
+REMOTE=$(git config branch.$BRANCH.remote)
+
+if [ "$BRANCH" = "master" ]; then
+  echo "Not gonna push to master"
+  exit 1
+fi
+
+
+if [ "$REMOTE" != "" ]; then
+  echo "Force Pushing!"
+  OUTPUT=$(git push --force -v origin $BRANCH 2>&1)
+else
+  echo "Branch Pushing!"
+  OUTPUT=$(git push -u -v origin $BRANCH 2>&1)
+fi
+echo $a
+
+echo $OUTPUT
+echo "grepped output is.."
+echo $OUTPUT | grep -o "http[^[:space:]]*"
+URL=$(echo $OUTPUT | grep -o "http[^[:space:]]*")
+
+if [ "$URL" != "" ]; then
+  echo "opening MR in browser"
+  open $URL
+fi
+exit 0

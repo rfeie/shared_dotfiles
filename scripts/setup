@@ -1,0 +1,234 @@
+#!/bin/bash
+
+cloneSubmodules() {
+  if ! [ -d $(pwd)/submodules ]
+  then
+    mkdir submodules
+  fi
+
+  cd submodules
+  if [ "${2}" = "t" ]
+  then
+    git clone git@git.gogoair.com:webapps/gadgets.git webapps-gadgets
+    cd webapps-gadgets && npm install && cd ..
+  fi
+
+  if [ "${3}" = "t" ]
+  then
+    git clone git@git.gogoair.com:webapps/gadgets-ifc.git webapps-gadgets-ifc
+    cd webapps-gadgets-ifc && npm install && cd ..
+  fi
+
+  if [ "${4}" = "t" ]
+  then
+    git clone git@git.gogoair.com:webappsshared/"${1}".git
+    sharedRepoName=webapps-"${1}"-shared
+    mv "${1}" $sharedRepoName
+    cd sharedRepoName && npm install && cd ..
+  fi
+
+  if [ "${5}" = "t" ]
+  then
+    git clone git@git.gogoair.com:webapps/services.git
+    mv services webapps-services
+    cd webapps-services && npm install && cd ..
+    git clone git@git.gogoair.com:webappsshared/"${1}".git
+  fi
+  cd ..
+}
+
+ROOTDIR=~/Documents/projects/
+
+includeShared=""
+includeGadgets=""
+includeGadgetsIFC=""
+includeServices=""
+includeIFC=""
+includeIFE=""
+GADGETS=f
+GADGETSIFC=f
+SERVICES=f
+SHARED=f
+IFC=f
+IFE=f
+
+echo "Include webapps-gadgets-ifc? (y/n) Press enter for yes."
+read includeGadgetsIFC
+
+case $includeGadgetsIFC in
+    "y")
+    GADGETSIFC=t
+    ;;
+    "")
+    GADGETSIFC=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+echo "Include airline's shared repo in submodules? (y/n) Press enter for yes."
+read includeShared
+
+case $includeShared in
+    "y")
+    SHARED=t
+    ;;
+    "")
+    SHARED=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+echo "Include webapps-gadgets in submodules? (y/n) Press enter for yes."
+read includeGadgets
+
+case $includeGadgets in
+    "y")
+    GADGETS=t
+    ;;
+    "")
+    GADGETS=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+echo "Include webapps-services in submodules? (y/n) Press enter for yes."
+read includeServices
+
+case $includeServices in
+    "y")
+    SERVICES=t
+    ;;
+    "")
+    SERVICES=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+echo "Include IFC when setting up? (y/n) Press enter for yes."
+read includeIFC
+
+case $includeIFC in
+    "y")
+    IFC=t
+    ;;
+    "")
+    IFC=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+echo "Include IFE when setting up? (y/n) Press enter for yes."
+read includeIFE
+
+case $includeIFE in
+    "y")
+    IFE=t
+    ;;
+    "")
+    IFE=t
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+
+
+cd "${ROOTDIR}"
+TEMPDIR=temp/setup$(date "+%Y-%m-%d--%H:%M:%S")
+mkdir $TEMPDIR
+
+if [ "${IFE}" = "t" ];
+  then
+
+  cd "${ROOTDIR}"
+  ROOTIFE=${ROOTDIR}ife
+  echo $ROOTIFE
+  if [ -d "${ROOTIFE}/${1}" ]; then
+    echo "Directory ${ROOTIFE}/${1} already exists. Removing"
+    mv ife/$1 $TEMPDIR/ife
+    # rm -rf ife/$1
+  fi
+
+  if [ ! -d "${ROOTIFE}" ]; then
+    echo "Creating directory ${ROOTIFE}"
+    mkdir ife
+  fi
+  echo "Trying to create IFE...."
+  cd ife
+  git clone git@git.gogoair.com:webappsife/"${1}".git
+  if [ "$?" = "0" ]; then
+    cd $1
+    npm run setup
+    cloneSubmodules "${1}" $GADGETS $GADGETSIFC $SHARED $SERVICES
+    cd ../..
+  else
+    echo "Cannot find IFE"
+  fi
+fi
+
+if [ "${IFC}" = "t" ];
+  then
+
+  ROOTIFC=${ROOTDIR}ifc
+  echo $ROOTIFC
+  if [ -d "${ROOTIFC}/${1}" ]; then
+    echo "Directory ${ROOTIFC}/${1} already exists. Removing"
+    # rm -rf ifc/$1
+    mv ifc/$1 $TEMPDIR/ifc
+  fi
+
+  if [ ! -d "${ROOTIFC}" ]; then
+    echo "Creating directory ${ROOTIFC}"
+    mkdir ifc
+  fi
+  echo "Trying to create IFC...."
+  cd ifc
+  git clone git@git.gogoair.com:webappsifc/"${1}".git
+  if [ "$?" = "0" ]; then
+    cd $1
+    npm run setup
+    cloneSubmodules "${1}" $GADGETS $GADGETSIFC $SHARED $SERVICES
+    cd ../..
+  else
+    echo "Cannot find IFC"
+  fi
+fi
+
+# echo "Trying to create Payment...."
+# git clone git@git.gogoair.com:webapps"${1}"/payment.git
+# if [ "$?" = "0" ]; then
+# 	cd payment
+# 	npm run setup
+# else
+# 	echo "Cannot find payment, trying to create wallet"
+# 	git clone git@git.gogoair.com:webapps"${1}"/wallet.git
+# 	if [ "$?" = "0" ]; then
+# 		cd wallet
+# 		npm run setup
+# 	else
+# 		echo "Cannot find wallet, trying to create secure"
+# 		git clone git@git.gogoair.com:webapps"${1}"/secure.git
+# 		if [ "$?" = "0" ]; then
+# 			cd secure
+# 			npm run setup
+# 		else
+# 			echo "Cannot find wallet or payment for this airline"
+# 		fi
+# 	fi
+# fi
+
+echo "Waiting for process to finish"
+
+cd "${ROOTDIR}"
+
+echo "Done!"
