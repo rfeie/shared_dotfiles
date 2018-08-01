@@ -1,0 +1,14 @@
+### OSX ###
+.DS_Store
+
+### WebStorm ###
+.idea/
+
+### Visual Studio Code ###
+.vscode/
+
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
