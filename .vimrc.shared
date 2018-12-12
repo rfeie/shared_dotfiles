@@ -1,5 +1,17 @@
 
 
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
+
+set relativenumber
+
 " BUNDLES
 
 if &compatible
@@ -28,6 +40,15 @@ endfunction
 com! -nargs=+  -bar Plugin call VundleToPlug("Plugin", <args>)
 com! -nargs=+  -bar Bundle call VundleToPlug("Bundle", <args>)
 
+" autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --tab-width\ 4
+" autocmd FileType javascript.jsx,javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ all\ --print-width\ 100
+
+" autocmd FileType javascript set formatprg=prettier\ --stdin
+" autocmd FileType javascript set formatprg=prettier
+
+
+
+
 call plug#begin('~/.vim/bundle')
 
 " Matching Tags
@@ -35,8 +56,6 @@ let g:mta_filetypes = {
     \ 'javascript.jsx' : 1,
     \}
 
-" Neoformat
-let g:neoformat_try_formatprg = 1
 
 Plug 'soft-aesthetic/soft-era-vim'
 Plug 'sbdchd/neoformat', { 'on': 'ToggleNeoformat' }
@@ -73,7 +92,6 @@ Plug 'pangloss/vim-javascript'
 Plug 'valloric/MatchTagAlways'
 Plug 'mxw/vim-jsx'
 Plug 'mattn/emmet-vim'
-Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 
 " ES2015 code snippets
@@ -104,5 +122,19 @@ if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local
 endif
 
+
+" Neoformat
+let g:neoformat_try_formatprg = 1
+augroup NeoformatAutoFormat
+    autocmd!
+    autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --tab-width\ 4
+                                             " \--stdin\
+                                             " \--print-width\ 80\
+                                             " \--single-quote\
+                                             " \--trailing-comma\ es5
+    autocmd BufWritePre *.js Neoformat
+augroup END
+
 call plug#end()
+
 
