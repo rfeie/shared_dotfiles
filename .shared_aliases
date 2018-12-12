@@ -7,7 +7,9 @@ alias clearall="clear && printf '\e[3J'"
 # git aliases
 alias checkConsole='git diff -G console'
 alias refreshMaster='git checkout master && git pull origin master'
+alias gitnuker='git reset HEAD -- .'
 alias gc='git checkout'
+alias gitrh='git reset --soft HEAD~$(read)'
 alias amend='git add . && git commit --amend --no-edit'
 alias stub='git add . && git commit -m "stub"'
 alias commit='git add . && git commit -m '
@@ -18,8 +20,8 @@ alias newPass='npx nicepass'
 
 
 # bash shortcuts
-alias cdp='cd ~/Documents/projects'
+alias cdp='cd ~/git/snc'
 alias ll='ls -l'
 alias cdc='. cdc'
 alias setup='. setup'
-alias mkcd='. mkcd'
+alias rsnm='rm -rf node_modules/ && npm i'

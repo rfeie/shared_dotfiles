@@ -1,11 +1,17 @@
 
 # Pull in aliases
-[[ -s ~/.shared_dotfiles_rgf/.shared_aliases ]] && source ~/.shared_dotfiles_rgf/.shared_aliases
+[[ -s ~/shared_dotfiles/.shared_aliases ]] && source ~/shared_dotfiles/.shared_aliases
 
 # Prompt customization
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
+function killonport {
+    echo "Finding processes running on port $1"
+    lsof -i :$1
+    echo "Killing processes"
+    kill -9 $(lsof -i :$1 | awk '/\d+/ {print $2}')
+}
 function prompt {
   local BLACK="\[\033[0;30m\]"
   local BLACKBOLD="\[\033[1;30m\]"
@@ -25,9 +31,9 @@ function prompt {
   local WHITEBOLD="\[\033[1;37m\]"
   local RESETCOLOR="\[\e[00m\]"
 
-  export PS1="\n$RED\u $PURPLE@ $GREEN\w $RESETCOLOR$GREENBOLD\$(git branch 2> /dev/null)\n 💀  $BLUE[\#] → $RESETCOLOR "
+  export PS1="\n$RED\u $PURPLE@ $GREEN\w $RESETCOLOR$GREENBOLD\$(git branch 2> /dev/null)\n ¯\_(ツ)_/¯ → $RESETCOLOR "
   export PS2=" | → $RESETCOLOR"
-  # echo "\n${RED}\e[40m\u $PURPLE@ $GREEN\w $RESETCOLOR$GREENBOLD\$(git branch 2> /dev/null)\n 💀  $BLUE[\#] → $RESETCOLOR  "
+  # echo "\n${RED}\e[40m\u $PURPLE@ $GREEN\w $RESETCOLOR$GREENBOLD\$(git branch 2> /dev/null)\n ✨  $BLUE[\#] → $RESETCOLOR  "
 }
 
 # bash scripts path

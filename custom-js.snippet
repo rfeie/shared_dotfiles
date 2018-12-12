@@ -1,0 +1,14 @@
+snippet cl "console.log(...)" b
+  console.log(\`%c ${'  '.repeat(Math.abs(new Error().stack.match(/\n/g).length -
+2))} \${$0}\`,
+  [
+        'background: linear-gradient(#D33106, #571402)'
+        , 'border: 1px solid #3E0E02'
+        , 'color: white'
+        , 'display: block'
+        , 'padding: 7px'
+        , 'line-height: 10px'
+  ].join(';')
+  )
+endsnippet
+
