@@ -9,6 +9,7 @@ alias checkConsole='git diff -G console'
 alias refreshMaster='git checkout master && git pull origin master'
 alias gitnuker='git reset HEAD -- .'
 alias gc='git checkout'
+alias gs='git status'
 alias gitrh='git reset --soft HEAD~$(read)'
 alias amend='git add . && git commit --amend --no-edit'
 alias stub='git add . && git commit -m "stub"'
@@ -18,6 +19,12 @@ alias getmaster='git checkout master && git pull origin master'
 alias branchmaster='getmaster && git checkout -b '
 alias newPass='npx nicepass'
 
+#snc
+alias mci='mvn clean install -U'
+alias bdt='builder run develop:trace'
+
+#open this
+sbp='vim ~/shared_shared_dotfiles/'
 
 # bash shortcuts
 alias cdp='cd ~/git/snc'
