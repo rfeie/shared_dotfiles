@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Pull in aliases
 [[ -s ~/shared_dotfiles/.shared_aliases ]] && source ~/shared_dotfiles/.shared_aliases
@@ -37,4 +38,75 @@ function prompt {
 }
 
 # bash scripts path
-export PATH=$PATH:~/.shared_dotfiles_rgf/scripts
+export PATH=$PATH:~/shared_dotfiles/scripts
+
+function notify {
+    local title="${2:-Hey its done.}"
+    local message="${1:-Whatever you wanted to do is over}"
+    # ${1:-DEFAULTVALUE}
+    osascript -e "display notification \"$message\" with title \"$title\""
+
+}
+
+function branchExists {
+
+    if [ $# -eq 1 ]; then
+        remote=origin
+            branch=$1
+            elif [ $# -eq 2 ]; then
+            remote=$1
+            branch=$2
+    else
+        echo "incorrect usage"
+    exit 2
+        fi
+        git show-ref --quiet --verify -- "refs/remotes/$remote/$branch"
+
+}
+
+function getTrunk {
+
+    if [ $# -eq 1 ]; then
+        branch=$1
+    else
+        branch=master
+            fi
+            git checkout $branch && git pull origin $branch
+
+}
+function makeFreshBranch {
+
+    if [ $# -eq 0 ]; then
+echo "Need a branch name"
+
+exit 2
+    else
+        branch=master
+            fi
+            getTrunk $branch
+            git checkout -b $1
+
+}
+function grebase {
+
+    if [ $# -eq 1 ]; then
+        branch=$1
+    else
+        branch=master
+            fi
+            git fetch && git rebase origin "$branch"
+
+}
+function gpush {
+    local branch_name=$(git branch | grep \* | cut -d ' ' -f2)
+        branchExists 'origin' "$branch_name"
+        if [ $? -eq 0 ]; then
+            echo "gpush:: branch exists"
+                repo_name=$(git push -f origin $branch_name | sed -e 's/.*\/\([^\/]*\)\.git/\1/')
+                open "https://code.devsnc.com/dev/$repo_name/pull/$branch_name"
+        else 
+            echo "gpush:: branch doesnt exists"
+                repo_name=$(git push -u origin $branch_name | sed -e 's/.*\/\([^\/]*\)\.git/\1/')
+                open https://code.devsnc.com/dev/$repo_name/pull/$branch_name
+                fi
+}

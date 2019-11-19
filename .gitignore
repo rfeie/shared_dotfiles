@@ -1,14 +1,23 @@
-### OSX ###
 .DS_Store
-
-### WebStorm ###
-.idea/
-
-### Visual Studio Code ###
+node_modules
+lib
+dist
+target
+node
+node_tmp
+npm-debug.log
+*.iml
+*.tgz
+coverage
+.tectonic
+.babelrc
+.vscode
+/clover.xml
+/coverage-final.json
+/lcov-report/
+/lcov.info
+/dist/
+/lib/
+/target/
 .vscode/
 
-### Node ###
-# Logs
-logs
-*.log
-npm-debug.log*

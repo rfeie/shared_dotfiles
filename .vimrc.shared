@@ -130,7 +130,7 @@ endif
 let g:neoformat_try_formatprg = 1
 augroup NeoformatAutoFormat
     autocmd!
-    autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --tab-width\ 4
+    autocmd FileType javascript setlocal formatprg=./node_modules/prettier/bin-prettier.js
                                              " \--stdin\
                                              " \--print-width\ 80\
                                              " \--single-quote\

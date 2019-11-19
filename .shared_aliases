@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias ls='ls -la -FGash'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -7,17 +9,18 @@ alias clearall="clear && printf '\e[3J'"
 # git aliases
 alias checkConsole='git diff -G console'
 alias refreshMaster='git checkout master && git pull origin master'
-alias gitnuker='git reset HEAD -- .'
+alias gitnuker='git reset --hard'
 alias gc='git checkout'
 alias gs='git status'
-alias gitrh='git reset --soft HEAD~$(read)'
+alias gitrh='git reset --soft HEAD~1'
 alias amend='git add . && git commit --amend --no-edit'
 alias stub='git add . && git commit -m "stub"'
 alias commit='git add . && git commit -m '
 alias deletebranches='git branch | grep -v "master" | xargs git branch -D'
 alias getmaster='git checkout master && git pull origin master'
 alias branchmaster='getmaster && git checkout -b '
-alias newPass='npx nicepass'
+alias stubamend='git add . && git commit --amend --no-edit --no-verify'
+alias grc='git rebase --continue'
 
 #snc
 alias mci='mvn clean install -U'
@@ -32,3 +35,14 @@ alias ll='ls -l'
 alias cdc='. cdc'
 alias setup='. setup'
 alias rsnm='rm -rf node_modules/ && npm i'
+alias newPass='npx nicepass'
+
+## For **BIG** node_modules you don't want to deal with.
+## Sends it to the parent folder and removes it in a background process
+alias movenm='mv node_modules ../__node_modules && rm -rf ../__node_modules &'
+
+# node stuff
+alias nvmuse='. _nvmuse'
+
+## Aliases _nodememory which sets the node env to have more RAM
+alias nodememory='. _nodememory'
