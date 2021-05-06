@@ -22,19 +22,23 @@ alias branchmaster='getmaster && git checkout -b '
 alias stubamend='git add . && git commit --amend --no-edit --no-verify'
 alias grc='git rebase --continue'
 
+# docker
+alias dlist='docker ps'
+alias dstop='docker stop $(docker ps -a -q)'
+
 #snc
-alias mci='mvn clean install -U'
+alias mci='mvn clean install -DskipTests -U'
 alias bdt='builder run develop:trace'
 
 #open this
-sbp='vim ~/shared_shared_dotfiles/'
+alias sbp='vim ~/shared_shared_dotfiles/'
 
 # bash shortcuts
 alias cdp='cd ~/git/snc'
 alias ll='ls -l'
 alias cdc='. cdc'
 alias setup='. setup'
-alias rsnm='rm -rf node_modules/ && npm i'
+
 alias newPass='npx nicepass'
 
 ## For **BIG** node_modules you don't want to deal with.

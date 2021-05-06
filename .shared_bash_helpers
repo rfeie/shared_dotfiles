@@ -97,6 +97,15 @@ function grebase {
             git fetch && git rebase origin "$branch"
 
 }
+function rsnm {
+    local rsnmcommand="${1:-ci}"
+    local rsnmnumnum=$RANDOM
+    echo "mv node_modules ~/.Trash/node_modules_$rsnmnumnum"
+    mv node_modules ~/.Trash/node_modules_$rsnmnumnum
+    echo "npm $rsnmcommand"
+    npm $rsnmcommand
+
+}
 function gpush {
     local branch_name=$(git branch | grep \* | cut -d ' ' -f2)
         branchExists 'origin' "$branch_name"
